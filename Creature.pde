@@ -4,6 +4,9 @@ class Creature {
   HashMap pose;
   HashMap previousPose;
 
+  PVector headPos;
+
+
   boolean alive;
   int life;
 
@@ -16,27 +19,42 @@ class Creature {
     number = _number;
     alive = true ;
     life = 5;
+    
+    //Get first keypoint
+    headPos = this.getKeypoint("nose");
   }
 
   void update(HashMap newPose) {
-    this.previousPose = this.pose;
     this.pose = newPose;
-    //float d = checkDistance(point);
+    PVector head_new = getKeypoint("nose");
+    
 
-    //if (d < 500.0) {
-    //  headPos.lerp(point, 0.5);
-    //} else {
-    //  headPos = point;
+    
+    float d = checkDistance(headPos, head_new);
 
-    //}
+    if (d < 500.0) {
+      headPos.lerp(head_new, 0.5);
+    } else {
+      headPos = head_new;
+
+    }
   }
 
   void draw() {
+    if (alive) {
+      
+      ellipse(headPos.x, headPos.y, 100,100);
+      
+    }
+  }
+
+  void drawKeypoints() {
     Iterator it = pose.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry pair = (Map.Entry)it.next();
-      System.out.println(pair.getKey() + " = " + pair.getValue());
+      //System.out.println(pair.getKey() + " = " + pair.getValue());
       PVector position = (PVector)pair.getValue();
+      //setKeypoint(
       text((String)pair.getKey(), position.x+10.0, position.y+10.0);
       ellipse(position.x, position.y, 10, 10);
       //it.remove(); // avoids a ConcurrentModificationException
@@ -58,7 +76,7 @@ class Creature {
   }
 
   //Create a PVector for each keypoint, lerp with previous point.
-  PVector getKeypoint(String point, int i) {
+  PVector getKeypoint(String point) {
     PVector ret = this.pose.get(point) != null ? (PVector)this.pose.get(point) : new PVector(-1000, -1000);
     return ret;
   }

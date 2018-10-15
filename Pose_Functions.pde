@@ -15,7 +15,7 @@ void webSocketEvent(String msg) {
       }
     }
   }
-  println("poses length: " + poses_size + " , " + "creatures length: " + critters.size());
+  //println("poses length: " + poses_size + " , " + "creatures length: " + critters.size());
   //Want to remove a pose if no longer detected. 
 }
 
