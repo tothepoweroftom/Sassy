@@ -1,6 +1,6 @@
 import websockets.*;
 import java.util.Map;
-
+import java.util.Iterator;
 // Note the HashMap's "key" is a String and "value" is an Integer
 WebsocketClient wsc;
 int now;
