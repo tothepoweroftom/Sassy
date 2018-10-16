@@ -26,7 +26,7 @@ void parsePose(JSONObject pose, int index) {
   JSONArray keypoints = pose.getJSONArray("keypoints");
   for (int i = 0; i<keypoints.size(); i++) {
     PVector pos = new PVector(keypoints.getJSONObject(i).getJSONObject("position").getFloat("x"), keypoints.getJSONObject(i).getJSONObject("position").getFloat("y"));
-    if (keypoints.getJSONObject(i).getFloat("score") > 0.05) {
+    if (keypoints.getJSONObject(i).getFloat("score") > 0.15) {
       hm.put(keypoints.getJSONObject(i).getString("part"), pos);
     }
   }
@@ -37,6 +37,7 @@ void parsePose(JSONObject pose, int index) {
 
 
 void setKeypoints() {
+  float amplitude = calculateAverageAmplitude();
   //Get nose from parsedPoses and History
   for (int i = 0; i<parsedPoses.length; i++) {
     if (parsedPoses[i] != null) {
